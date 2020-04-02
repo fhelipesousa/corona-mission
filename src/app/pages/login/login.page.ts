@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, AlertController, Platform } from '@ionic/angular';
 import { FirebaseGoogleAuthService } from 'src/app/services/firebase/firebase-google-auth.service';
 import { CoronaToast } from 'src/app/shared/corona-toast';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,9 @@ export class LoginPage implements OnInit {
   ) {
     this.plt.ready().then(() => {
       this.localNotifications.on('click').subscribe(res => {
-
+        console.log('click:', res);
+        let msg = res.data ? res.data.mydata : '';        
+        this.showAlert(res.title, res.text, msg);
       });
     });
 
@@ -45,6 +47,7 @@ export class LoginPage implements OnInit {
   }
 
   loginEmail() {
+    this.scheduleNotification();
     this.navCtrl.setDirection('forward');
     this.navCtrl.navigateForward('/login/login-email');
   }
@@ -53,27 +56,37 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward('/home');
   }
 
-  scheduleNotification(){
+  scheduleNotification(){    
     this.localNotifications.schedule({
       id: 1,
       title: 'Attention',
-      text: 'Corona Mission',
-      data: { page: 'https://ionicframework.com/docs/native/local-notifications'},
+      text: 'Corona Mission - Scheduling',
+      data: { mydata: 'My hidden message this is'},
       trigger: { in: 5, unit: ELocalNotificationTriggerUnit.SECOND}
+      // page: 'https://ionicframework.com/docs/native/local-notifications'},      
+      // , trigger: { at: new Date(new Date().getTime() + 5 * 1000)}
     });
   }
 
   recurringNotification() {
-
+    this.localNotifications.schedule({
+      id: 2,
+      title: 'Attention',
+      text: 'Corona Mission - Recurring',
+      data: { mydata: 'My hidden message this is'},
+      trigger: { every: ELocalNotificationTriggerUnit.MINUTE}
+    });
   }
 
   repeatingDaily(){
-
-  }
-
-  getAll(){
-
-  }
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Attention',
+      text: 'Corona Mission - Good morning',
+      data: { mydata: 'Cuide do seu idoso!'},
+      trigger: { every: {hour:17, minute:1}}
+    });
+  }  
 
   showAlert(header, sub, msg){
     this.alertCtrl.create({
