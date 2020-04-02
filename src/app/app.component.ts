@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthFirebaseService } from './services/firebase/firebase-auth.service';
+import { Push } from '@ionic-native/push/ngx';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authFirebaseService: AuthFirebaseService
+    private authFirebaseService: AuthFirebaseService,
+    private push: Push
   ) {
     this.sideMenu();
     this.initializeApp();
