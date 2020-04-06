@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthFirebaseService } from './services/firebase/firebase-auth.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private authFirebaseService: AuthFirebaseService
+    private authFirebaseService: AuthFirebaseService,
+    public fcm: FCM
   ) {
     this.sideMenu();
     this.initializeApp();
@@ -26,6 +28,28 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.fcm.getToken().then((token) => {
+        console.log(token);
+      }), (err) => {
+        console.log(JSON.stringify(err));
+      }
+
+      this.fcm.onNotification().subscribe((data) => {
+        if(data.wasTapped)
+        {
+          console.log("Was tapped");
+        }
+        else
+        {
+          console.log(data.message);
+        }
+      });
+
+      this.fcm.onTokenRefresh().subscribe((token) =>{
+        console.log(token);
+      });
+
     });
   }
 

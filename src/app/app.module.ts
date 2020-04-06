@@ -17,6 +17,7 @@ import { FirebaseDatabaseServices } from './services/firebase/firebase-database.
 import { AuthFirebaseService } from './services/firebase/firebase-auth.service';
 import { FirebaseGoogleAuthService } from './services/firebase/firebase-google-auth.service';
 import { CoronaToast } from './shared/corona-toast';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 firebase.initializeApp(environment.firebase);
 
@@ -34,7 +35,7 @@ firebase.initializeApp(environment.firebase);
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseDatabaseServices, AuthFirebaseService, FirebaseGoogleAuthService,
-    CoronaToast
+    CoronaToast, FCM
   ],
   bootstrap: [AppComponent]
 })
