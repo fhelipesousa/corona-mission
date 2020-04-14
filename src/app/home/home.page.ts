@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { AuthFirebaseService } from '../services/firebase/firebase-auth.service';
 import { FirebaseDatabaseServices } from '../services/firebase/firebase-database.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +16,15 @@ export class HomePage implements OnInit {
   registeredUsers;
 
   constructor(private navCtrl: NavController, private dataService: DataService,
-    private authFirebaseService: AuthFirebaseService, private databaseFirebaseService: FirebaseDatabaseServices) {
+    private authFirebaseService: AuthFirebaseService, private databaseFirebaseService: FirebaseDatabaseServices,
+    private fcm:FCM) {
   }
 
   ionViewWillEnter() {
 
     this.loadPersons();
+
+    this.subscribeNotification();
   }
 
   ngOnInit() {
@@ -107,4 +111,29 @@ export class HomePage implements OnInit {
     this.navCtrl.setDirection('forward');
     this.navCtrl.navigateForward('/home/register');
   }
+
+  subscribeNotification(){
+    this.fcm.getToken().then((token) => {
+      console.log(token);
+    }), (err) => {
+      console.log(JSON.stringify(err));
+    }
+
+    this.fcm.onNotification().subscribe((data) => {
+      if(data.wasTapped)
+      {
+        console.log("Was tapped");
+      }
+      else
+      {
+        console.log(data.message);
+      }
+    });
+
+    this.fcm.onTokenRefresh().subscribe((token) =>{
+      console.log(token);
+    });
+
+  }
+
 }
