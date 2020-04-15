@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "874703078872",
+    "firebase_url": "https://coronamission-dev.firebaseio.com",
+    "project_id": "coronamission-dev",
+    "storage_bucket": "coronamission-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874703078872:android:4eff3e0e07bfbfcf371ead",
+        "android_client_info": {
+          "package_name": "corona.mission.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874703078872-8eqh51qqjcdnuguud7p9lb1haie6rald.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "corona.mission.app",
+            "certificate_hash": "5b0b9ee06d0747e9318812e46e91d72bb203dce9"
+          }
+        },
+        {
+          "client_id": "874703078872-35ls87065hmg0hfnatl0rc9121gtfut1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "corona.mission.app",
+            "certificate_hash": "f5c0a2e544ac37952b2e2353949ecd971993921c"
+          }
+        },
+        {
+          "client_id": "874703078872-qvo97ne2a39iski4i5gsf0vd0be1q5k4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvl5wNkBTMjL3pQUIN0mHuVcLstJnbVl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874703078872-qvo97ne2a39iski4i5gsf0vd0be1q5k4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "874703078872-iu9lnqd71ckrh111kcrnrbk2c25bd65d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "corona.mission.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
