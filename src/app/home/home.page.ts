@@ -19,11 +19,13 @@ export class HomePage implements OnInit {
 
   registeredUsers;
   loading: any;
+  hasTokenSubscribeNotification;
+  tokenNotification;
 
   constructor(private navCtrl: NavController, private dataService: DataService,
     private authFirebaseService: AuthFirebaseService, private databaseFirebaseService: FirebaseDatabaseServices,
     public loadingController: LoadingController,
-    private fcm:FCM) {
+    private fcm:FCM, private auth : AuthFirebaseService) {
   }
 
   ionViewWillEnter() {
@@ -132,26 +134,43 @@ export class HomePage implements OnInit {
 
   subscribeNotification(){
     this.fcm.getToken().then((token) => {
-      console.log(token);
+      // this.tokenNotification = token;
+      console.log("Token FCM: " + token);
+      this.redirectFromNotification(token);
     }), (err) => {
       console.log(JSON.stringify(err));
     }
 
-    this.fcm.onNotification().subscribe((data) => {
-      if(data.wasTapped)
-      {
-        console.log("Was tapped");
-      }
-      else
-      {
-        console.log(data.message);
-      }
-    });
+    // this.fcm.onNotification().subscribe((data) => {      
+    //   if(data.wasTapped)
+    //   {
+    //     console.log("Received in background");
+    //     // this.redirectFromNotification();
+    //   } else {
+    //     console.log("Received in foreground");        
+    //   }
+    // });    
 
-    this.fcm.onTokenRefresh().subscribe((token) =>{
-      console.log(token);
-    });
+    // this.fcm.onTokenRefresh().subscribe((token) =>{      
+    //   console.log("Token Refresh: " + token);
+    // });
 
+  }
+
+  redirectFromNotification(token: any){
+    debugger
+    this.databaseFirebaseService
+      .readItemByKey('/users/' + this.authFirebaseService.getCurrentUserId() + '/tokenNotification', '').then((res) => {
+
+        this.hasTokenSubscribeNotification = Boolean(res && res.val());
+        this.loading.dismiss();       
+
+        if (this.hasTokenSubscribeNotification) {
+          this.tokenNotification = res.val();
+        } else {
+          this.databaseFirebaseService.bruteUpdateItem('/users/' + this.authFirebaseService.getCurrentUserId() + '/tokenNotification', token);
+        }
+      });
   }
 
 }
